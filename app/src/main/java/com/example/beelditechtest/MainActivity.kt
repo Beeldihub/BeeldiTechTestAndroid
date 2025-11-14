@@ -12,19 +12,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.beelditechtest.ui.theme.BeeldiTechTestTheme
 import com.example.beelditechtest.ui.theme.screenBackground
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val dataSource = EquipmentDataSource(context = this)
-        val viewModel = EquipmentListViewModel(dataSource)
         enableEdgeToEdge()
         setContent {
             BeeldiTechTestTheme {
                 Scaffold(modifier = Modifier.fillMaxSize().background(screenBackground)) { innerPadding ->
-                    EquipmentListScreen(viewModel, Modifier.padding(innerPadding))
+
                 }
             }
         }

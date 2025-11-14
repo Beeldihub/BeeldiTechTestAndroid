@@ -12,6 +12,6 @@ class EquipmentListViewModel() : ViewModel() {
     }
 
     fun loadEquipments() {
-        // TODO
+        //TODO
     }
 }
