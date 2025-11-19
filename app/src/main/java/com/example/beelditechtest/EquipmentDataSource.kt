@@ -8,7 +8,7 @@ import java.io.IOException
 
 class EquipmentDataSource(private val context: Context) {
 
-    suspend fun getEquipments(): List<EquipmentEntity> = withContext(Dispatchers.Main) {
+    suspend fun getEquipments(): List<EquipmentEntity> = withContext(Dispatchers.IO) {
         try {
             val jsonString = context.assets.open("equipments.json")
                 .bufferedReader()
