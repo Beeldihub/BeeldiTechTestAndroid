@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.lazy.items
 
 @Composable
 fun EquipmentListScreen(
@@ -53,7 +54,7 @@ fun EquipmentListScreen(
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
-                items(state.equipments) { equipment ->
+                items(state.equipmentEntities) { equipment ->
                     EquipmentCard(
                         equipmentEntity = equipment,
                         modifier = Modifier

@@ -35,3 +35,19 @@ Fiche équipement :
 Pour ce test technique, nous vous invitions à respecter les bonnes pratiques recommandées par la documentation Android.
 
 Si vous avez des questions concernant ce test technique, vous pouvez nous les poser à cette adresse : arthur.mercier@beeldi.com
+
+
+
+## Bugs corrigés
+
+- AGP incompatible : la version 8.13.1 déclarée dans `gradle/libs.versions.toml` empêchait la synchronisation. Remplacée par 8.6.0 comme demandé.
+- DSL `compileSdk` invalide : usage de `compileSdk { version = release(36) }` non supporté. Corrigé en utilisant la syntaxe standard `compileSdk = 34`.
+- Incohérence de modèle : `EquipmentEntity` nécessitait `type: Int` mais `EquipmentDataSource` ne passait pas l’argument. Ajout de la lecture du champ `type`.
+- Types JSON incompatibles : `type` stocké comme chaîne dans `equipments.json` provoquait un crash. Passé en entier.
+- Entrée JSON incomplète : l’équipement `id = 5` n’avait pas de `name`, ce qui faisait échouer le parsing. Champ ajouté.
+- `EquipmentDataSource` lisait les fichiers sur `Dispatchers.Main` sans dépendance `kotlinx-coroutines-android`. Passage sur `Dispatchers.IO` et ajout de la dépendance.
+- ViewModel non initialisable : `EquipmentListViewModel` n’acceptait pas le `EquipmentDataSource` alors que `MainActivity` essayait de lui passer. Constructeur mis à jour + factory `viewModels`.
+- État non exposé : absence de propriété publique pour l’UI (`state`). Ajout de `val state: StateFlow<EquipmentListState>` et implémentation de `loadEquipments()` avec `viewModelScope`.
+- Propriété UI erronée : `EquipmentListScreen` utilisait `state.equipments` au lieu de `state.equipmentEntities`. Aligné et import `items` ajouté.
+- Fonction `items` non importée : `androidx.compose.foundation.lazy.items` manquait, causant des références rouges. Import ajouté.
+- `enableEdgeToEdge()` non résolu : ajout de la dépendance `androidx.activity:activity-ktx` pour rétablir la fonction.
