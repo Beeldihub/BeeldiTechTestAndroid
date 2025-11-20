@@ -1,4 +1,4 @@
-package com.example.beelditechtest
+package com.example.beelditechtest.data.model
 
 data class EquipmentEntity(
     val id: String,

@@ -1,13 +1,15 @@
-package com.example.beelditechtest
+package com.example.beelditechtest.data.datasource.local
 
 import android.content.Context
+import com.example.beelditechtest.data.model.EquipmentEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import java.io.IOException
 
-class EquipmentDataSource(private val context: Context) {
-
+class EquipmentLocalDataSource(
+    private val context: Context
+) {
     suspend fun getEquipments(): List<EquipmentEntity> = withContext(Dispatchers.IO) {
         try {
             val jsonString = context.assets.open("equipments.json")
@@ -30,7 +32,6 @@ class EquipmentDataSource(private val context: Context) {
                 )
                 equipmentEntities.add(equipmentEntity)
             }
-
             equipmentEntities
         } catch (e: IOException) {
             emptyList()

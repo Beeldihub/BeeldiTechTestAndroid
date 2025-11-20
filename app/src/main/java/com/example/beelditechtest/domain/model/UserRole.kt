@@ -1,4 +1,4 @@
-package com.example.beelditechtest
+package com.example.beelditechtest.domain.model
 
 enum class UserRole {
     ADMIN,

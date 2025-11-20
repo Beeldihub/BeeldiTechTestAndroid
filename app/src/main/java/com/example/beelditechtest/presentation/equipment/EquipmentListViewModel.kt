@@ -1,14 +1,13 @@
-package com.example.beelditechtest
-
+package com.example.beelditechtest.presentation.equipment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-
+import com.example.beelditechtest.domain.usecase.GetEquipmentsUseCase
 
 class EquipmentListViewModel(
-    private val dataSource: EquipmentDataSource
+    private val getEquipmentsUseCase: GetEquipmentsUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(EquipmentListState())
@@ -21,16 +20,17 @@ class EquipmentListViewModel(
     fun loadEquipments() {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true, error = null)
-            try {
-                val equipments = dataSource.getEquipments()
+            val result = getEquipmentsUseCase()
+            if (result.isSuccess) {
                 _state.value = _state.value.copy(
-                    equipmentEntities = equipments,
+                    equipmentEntities = result.getOrNull() ?: emptyList(),
                     isLoading = false
                 )
-            } catch (e: Exception) {
+            } else {
+                val exception = result.exceptionOrNull()
                 _state.value = _state.value.copy(
                     isLoading = false,
-                    error = e.message ?: "Erreur inconnue"
+                    error = exception?.message ?: "Erreur inconnue"
                 )
             }
         }
