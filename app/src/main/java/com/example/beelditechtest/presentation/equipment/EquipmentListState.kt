@@ -1,8 +1,8 @@
 package com.example.beelditechtest.presentation.equipment
 import com.example.beelditechtest.domain.model.Equipment
 
-data class EquipmentListState(
-    val equipmentEntities: List<Equipment> = emptyList(),
-    val isLoading: Boolean = false,
-    val error: String? = null,
-)
+sealed class EquipmentListUiState {
+    data object Loading : EquipmentListUiState()
+    data class Success(val equipments: List<Equipment>) : EquipmentListUiState()
+    data class Error(val message: String) : EquipmentListUiState()
+}

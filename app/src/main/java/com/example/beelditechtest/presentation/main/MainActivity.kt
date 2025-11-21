@@ -8,6 +8,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.example.beelditechtest.di.AppModule
 import com.example.beelditechtest.di.EquipmentViewModelFactory
@@ -34,13 +36,16 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             BeeldiTechTestTheme {
+                val uiState by viewModel.state.collectAsState()
+
                 Scaffold(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(screenBackground)
                 ) { innerPadding ->
                     EquipmentListScreen(
-                        viewModel = viewModel,
+                        uiState = uiState,
+                        onRetry = { viewModel.loadEquipments() },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }

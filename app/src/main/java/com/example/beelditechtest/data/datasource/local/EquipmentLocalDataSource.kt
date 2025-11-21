@@ -1,5 +1,4 @@
 package com.example.beelditechtest.data.datasource.local
-
 import android.content.Context
 import com.example.beelditechtest.data.model.EquipmentEntity
 import kotlinx.coroutines.Dispatchers
@@ -17,22 +16,21 @@ class EquipmentLocalDataSource(
                 .use { it.readText() }
 
             val jsonArray = JSONArray(jsonString)
-            val equipmentEntities = mutableListOf<EquipmentEntity>()
-
-            for (i in 0 until jsonArray.length()) {
-                val jsonObject = jsonArray.getJSONObject(i)
-                val equipmentEntity = EquipmentEntity(
-                    id = jsonObject.getString("id"),
-                    name = jsonObject.getString("name"),
-                    brand = jsonObject.getString("brand"),
-                    model = jsonObject.getString("model"),
-                    serialNumber = jsonObject.getString("serialNumber"),
-                    location = jsonObject.getString("location"),
-                    type = jsonObject.getInt("type")
-                )
-                equipmentEntities.add(equipmentEntity)
+            buildList {
+                for (i in 0 until jsonArray.length()) {
+                    val jsonObject = jsonArray.getJSONObject(i)
+                    val equipmentEntity = EquipmentEntity(
+                        id = jsonObject.getString("id"),
+                        name = jsonObject.getString("name"),
+                        brand = jsonObject.getString("brand"),
+                        model = jsonObject.getString("model"),
+                        serialNumber = jsonObject.getString("serialNumber"),
+                        location = jsonObject.getString("location"),
+                        type = jsonObject.getInt("type")
+                    )
+                    add(equipmentEntity)
+                }
             }
-            equipmentEntities
         } catch (e: IOException) {
             emptyList()
         } catch (e: Exception) {

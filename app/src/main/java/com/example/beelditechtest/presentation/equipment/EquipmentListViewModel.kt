@@ -5,13 +5,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import com.example.beelditechtest.domain.usecase.GetEquipmentsUseCase
+import kotlinx.coroutines.flow.asStateFlow
 
 class EquipmentListViewModel(
     private val getEquipmentsUseCase: GetEquipmentsUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(EquipmentListState())
-    val state: StateFlow<EquipmentListState> = _state
+    private val _state = MutableStateFlow<EquipmentListUiState>(EquipmentListUiState.Loading)
+    val state: StateFlow<EquipmentListUiState> = _state.asStateFlow()
 
     init {
         loadEquipments()
@@ -19,18 +20,16 @@ class EquipmentListViewModel(
 
     fun loadEquipments() {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true, error = null)
+            _state.value = EquipmentListUiState.Loading
             val result = getEquipmentsUseCase()
-            if (result.isSuccess) {
-                _state.value = _state.value.copy(
-                    equipmentEntities = result.getOrNull() ?: emptyList(),
-                    isLoading = false
+            _state.value = if (result.isSuccess) {
+                EquipmentListUiState.Success(
+                    equipments = result.getOrNull() ?: emptyList()
                 )
             } else {
                 val exception = result.exceptionOrNull()
-                _state.value = _state.value.copy(
-                    isLoading = false,
-                    error = exception?.message ?: "Erreur inconnue"
+                EquipmentListUiState.Error(
+                    message = exception?.message ?: "Erreur inconnue"
                 )
             }
         }

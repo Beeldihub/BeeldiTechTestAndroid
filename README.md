@@ -51,3 +51,86 @@ Si vous avez des questions concernant ce test technique, vous pouvez nous les po
 - Propriété UI erronée : `EquipmentListScreen` utilisait `state.equipments` au lieu de `state.equipmentEntities`. Aligné et import `items` ajouté.
 - Fonction `items` non importée : `androidx.compose.foundation.lazy.items` manquait, causant des références rouges. Import ajouté.
 - `enableEdgeToEdge()` non résolu : ajout de la dépendance `androidx.activity:activity-ktx` pour rétablir la fonction.
+
+
+
+## Refonte Clean Architecture MVVM
+
+### Objectif
+
+Refactorisation complète de l'application pour adopter une architecture clean avec le pattern MVVM, respectant les bonnes pratiques Android et améliorant la maintenabilité, testabilité et scalabilité du code.
+
+### Architecture mise en place
+
+#### Structure en 3 couches
+
+- **Domain Layer** : Logique métier pure (indépendante d'Android)
+  - Modèles de domaine (`Equipment`, `UserRole`)
+  - Interfaces Repository
+  - Use Cases (cas d'usage métier)
+
+- **Data Layer** : Gestion des données
+  - Implémentations des repositories
+  - Sources de données (local/remote)
+  - Modèles de données (DTO)
+  - Mappers (conversion Data ↔ Domain)
+
+- **Presentation Layer** : Interface utilisateur
+  - UI (Jetpack Compose)
+  - ViewModels
+  - États UI (sealed classes)
+  - Composables réutilisables
+
+### Changements principaux
+
+#### Architecture
+- Séparation en 3 couches (Domain, Data, Presentation)
+- Un fichier = une classe/composant/fonction
+- Flux de données unidirectionnel
+- Séparation claire des responsabilités
+
+#### Domain Layer
+- Création de `Equipment` (modèle de domaine)
+- Création de `EquipmentRepository` (interface)
+- Création de `GetEquipmentsUseCase` (use case)
+- Migration de `UserRole` vers le domain layer
+
+#### Data Layer
+- Création de `EquipmentEntity` (modèle de données)
+- Migration `EquipmentDataSource` → `EquipmentLocalDataSource`
+- Création de `EquipmentRepositoryImpl` (implémentation)
+- Création de `EquipmentMapper` (conversion Data ↔ Domain)
+- Utilisation de `buildList` pour l'immutabilité
+
+#### Presentation Layer
+- Migration de `MainActivity` vers `presentation/main/`
+- Création de `EquipmentListUiState` (sealed class)
+- Refactorisation du ViewModel pour utiliser les Use Cases
+- Décomposition de l'écran en composables réutilisables :
+  - `EquipmentListLoading`
+  - `EquipmentListError`
+  - `EquipmentListContent`
+- Le composable reçoit l'UiState au lieu du ViewModel
+
+#### Injection de dépendances
+- Création de `AppModule` (construction des dépendances)
+- Création de `EquipmentViewModelFactory` (injection dans ViewModel)
+- Simplification de `MainActivity`
+
+#### Gestion des états
+- Remplacement par `sealed class` pour `EquipmentListUiState`
+- États : `Loading`, `Success`, `Error`
+- Utilisation de `StateFlow` au lieu de `LiveData`
+- Utilisation de `asStateFlow()` pour l'immutabilité
+- Utilisation de `update()` pour les mutations (thread-safe)
+
+### Bonnes pratiques appliquées
+
+- StateFlow au lieu de LiveData
+- Flux de données unidirectionnel
+- Immutabilité des états
+- Pas de logique métier dans les composables
+- Composables décomposés et réutilisables
+- Utilisation de `viewModelScope` pour les coroutines
+- Suspend/Flow au lieu de callbacks
+- Material Design 3 (couleurs du thème)

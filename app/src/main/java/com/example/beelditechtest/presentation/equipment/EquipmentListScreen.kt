@@ -8,59 +8,82 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.unit.dp
-
-
-
+import com.example.beelditechtest.domain.model.Equipment
 
 @Composable
-fun EquipmentListScreen(
-    viewModel: EquipmentListViewModel,
+fun EquipmentListLoading(
     modifier: Modifier = Modifier
 ) {
-    val state by viewModel.state.collectAsState()
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
 
-    when {
-        state.isLoading -> {
-            Box(
-                modifier = modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        }
-        state.error != null -> {
-            Box(
-                modifier = modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "Erreur: ${state.error}",
-                    color = MaterialTheme.colorScheme.error
-                )
-            }
-        }
-        else -> {
-            LazyColumn(
-                modifier = modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-            ) {
-                items(state.equipmentEntities) { equipment ->
-                    EquipmentCard(
-                        equipment = equipment,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp)
-                    )
-                }
-            }
+@Composable
+fun EquipmentListError(
+    message: String,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Erreur: $message",
+            color = MaterialTheme.colorScheme.error
+        )
+    }
+}
+
+@Composable
+fun EquipmentListContent(
+    equipments: List<Equipment>,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        items(equipments) { equipment ->
+            EquipmentCard(
+                equipment = equipment,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            )
         }
     }
 }
 
+@Composable
+fun EquipmentListScreen(
+    uiState: EquipmentListUiState,
+    onRetry: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+    when (val currentState = uiState) {
+        is EquipmentListUiState.Loading -> {
+            EquipmentListLoading(modifier = modifier)
+        }
+        is EquipmentListUiState.Error -> {
+            EquipmentListError(
+                message = currentState.message,
+                modifier = modifier
+            )
+        }
+        is EquipmentListUiState.Success -> {
+            EquipmentListContent(
+                equipments = currentState.equipments,
+                modifier = modifier
+            )
+        }
+    }
+}
