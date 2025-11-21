@@ -11,8 +11,8 @@ class EquipmentListViewModel(
     private val getEquipmentsUseCase: GetEquipmentsUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<EquipmentListUiState>(EquipmentListUiState.Loading)
-    val state: StateFlow<EquipmentListUiState> = _state.asStateFlow()
+    private val _state = MutableStateFlow<EquipmentScreenUiModel>(EquipmentScreenUiModel.Loading)
+    val state: StateFlow<EquipmentScreenUiModel> = _state.asStateFlow()
 
     init {
         loadEquipments()
@@ -20,15 +20,15 @@ class EquipmentListViewModel(
 
     fun loadEquipments() {
         viewModelScope.launch {
-            _state.value = EquipmentListUiState.Loading
+            _state.value = EquipmentScreenUiModel.Loading
             val result = getEquipmentsUseCase()
             _state.value = if (result.isSuccess) {
-                EquipmentListUiState.Success(
-                    equipments = result.getOrNull() ?: emptyList()
+                EquipmentScreenUiModel.Success(
+                    equipmentUiModels = result.getOrNull() ?: emptyList()
                 )
             } else {
                 val exception = result.exceptionOrNull()
-                EquipmentListUiState.Error(
+                EquipmentScreenUiModel.Error(
                     message = exception?.message ?: "Erreur inconnue"
                 )
             }

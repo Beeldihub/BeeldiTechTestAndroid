@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.unit.dp
-import com.example.beelditechtest.domain.model.Equipment
+import com.example.beelditechtest.domain.model.EquipmentUiModel
 
 @Composable
 fun EquipmentListLoading(
@@ -44,7 +44,7 @@ fun EquipmentListError(
 
 @Composable
 fun EquipmentListContent(
-    equipments: List<Equipment>,
+    equipmentUiModels: List<EquipmentUiModel>,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -52,9 +52,9 @@ fun EquipmentListContent(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        items(equipments) { equipment ->
+        items(equipmentUiModels) { equipment ->
             EquipmentCard(
-                equipment = equipment,
+                equipmentUiModel = equipment,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
@@ -65,23 +65,23 @@ fun EquipmentListContent(
 
 @Composable
 fun EquipmentListScreen(
-    uiState: EquipmentListUiState,
+    uiState: EquipmentScreenUiModel,
     onRetry: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     when (val currentState = uiState) {
-        is EquipmentListUiState.Loading -> {
+        is EquipmentScreenUiModel.Loading -> {
             EquipmentListLoading(modifier = modifier)
         }
-        is EquipmentListUiState.Error -> {
+        is EquipmentScreenUiModel.Error -> {
             EquipmentListError(
                 message = currentState.message,
                 modifier = modifier
             )
         }
-        is EquipmentListUiState.Success -> {
+        is EquipmentScreenUiModel.Success -> {
             EquipmentListContent(
-                equipments = currentState.equipments,
+                equipmentUiModels = currentState.equipmentUiModels,
                 modifier = modifier
             )
         }

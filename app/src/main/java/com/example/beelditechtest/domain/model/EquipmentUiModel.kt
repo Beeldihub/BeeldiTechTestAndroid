@@ -1,6 +1,6 @@
 package com.example.beelditechtest.domain.model
 
-data class Equipment(
+data class EquipmentUiModel(
     val id: String,
     val name: String,
     val brand: String,

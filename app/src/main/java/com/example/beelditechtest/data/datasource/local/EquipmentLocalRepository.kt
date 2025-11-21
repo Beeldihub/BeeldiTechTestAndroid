@@ -6,7 +6,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import java.io.IOException
 
-class EquipmentLocalDataSource(
+class EquipmentLocalRepository(
     private val context: Context
 ) {
     suspend fun getEquipments(): List<EquipmentEntity> = withContext(Dispatchers.IO) {

@@ -1,18 +1,18 @@
 package com.example.beelditechtest.data.repository
-import com.example.beelditechtest.data.datasource.local.EquipmentLocalDataSource
+import com.example.beelditechtest.data.datasource.local.EquipmentLocalRepository
 import com.example.beelditechtest.data.mapper.EquipmentMapper
-import com.example.beelditechtest.domain.model.Equipment
+import com.example.beelditechtest.data.model.EquipmentEntity
+import com.example.beelditechtest.domain.model.EquipmentUiModel
 import com.example.beelditechtest.domain.repository.EquipmentRepository
 
 class EquipmentRepositoryImpl(
-    private val localDataSource: EquipmentLocalDataSource
+    private val localDataSource: EquipmentLocalRepository
 ) : EquipmentRepository {
 
-    override suspend fun getEquipments(): Result<List<Equipment>> {
+    override suspend fun getEquipments(): Result<List<EquipmentEntity>> {
         return try {
             val entities = localDataSource.getEquipments()
-            val equipments = EquipmentMapper.toDomainList(entities)
-            Result.success(equipments)
+            Result.success(entities)
         } catch (e: Exception) {
             Result.failure(e)
         }

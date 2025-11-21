@@ -1,10 +1,10 @@
 package com.example.beelditechtest.data.mapper
 import com.example.beelditechtest.data.model.EquipmentEntity
-import com.example.beelditechtest.domain.model.Equipment
+import com.example.beelditechtest.domain.model.EquipmentUiModel
 
 object EquipmentMapper {
-    fun toDomain(entity: EquipmentEntity): Equipment {
-        return Equipment(
+    fun toUiModel(entity: EquipmentEntity): EquipmentUiModel {
+        return EquipmentUiModel(
             id = entity.id,
             name = entity.name,
             brand = entity.brand,
@@ -16,25 +16,7 @@ object EquipmentMapper {
     }
 
 
-    fun toDomainList(entities: List<EquipmentEntity>): List<Equipment> {
-        return entities.map { toDomain(it) }
-    }
-
-
-    fun toData(equipment: Equipment): EquipmentEntity {
-        return EquipmentEntity(
-            id = equipment.id,
-            name = equipment.name,
-            brand = equipment.brand,
-            model = equipment.model,
-            serialNumber = equipment.serialNumber,
-            location = equipment.location,
-            type = equipment.type
-        )
-    }
-
-
-    fun toDataList(equipments: List<Equipment>): List<EquipmentEntity> {
-        return equipments.map { toData(it) }
+    fun toUiModelList(entities: List<EquipmentEntity>): List<EquipmentUiModel> {
+        return entities.map { toUiModel(it) }
     }
 }
