@@ -7,16 +7,21 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.beelditechtest.UserRole
 import com.example.beelditechtest.domain.models.Equipment
 
 /** Displays the equipment list based on the current UI state. */
@@ -60,6 +65,11 @@ fun EquipmentListScreen(
                     Text("Aucun équipement disponible.")
                 }
             } else { // Add Error handling
+                UserRoleSelector(
+                    selected = viewModel.selectedRole.collectAsState().value,
+                    onRoleSelected = { viewModel.setRole(it) }
+                )
+
                 LazyColumn(
                     modifier = modifier
                         .fillMaxSize()
@@ -131,3 +141,35 @@ fun EquipmentCard(
         }
     }
 }
+@Composable
+fun UserRoleSelector(
+    selected: UserRole,
+    onRoleSelected: (UserRole) -> Unit
+) {
+    var expanded = remember { mutableStateOf(false) }
+
+    Box {
+        Text(
+            text = "Role: ${selected.name}",
+            modifier = Modifier
+                .clickable { expanded.value = true }
+                .padding(8.dp)
+        )
+
+        DropdownMenu(
+            expanded = expanded.value,
+            onDismissRequest = { expanded.value = false }
+        ) {
+            UserRole.values().forEach { role ->
+                DropdownMenuItem(
+                    text = { Text(role.name) },
+                    onClick = {
+                        expanded.value = false
+                        onRoleSelected(role)
+                    }
+                )
+            }
+        }
+    }
+}
+

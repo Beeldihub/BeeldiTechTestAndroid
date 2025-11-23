@@ -24,7 +24,7 @@ It focuses on code quality, Clean Architecture, modern Android standards and a s
 - [x] Connecter le Flow au ViewModel via un `UseCase` et un `Repository`
 - [x] Afficher la liste des équipements avec Jetpack Compose
 - [x] Au clic sur un équipement, afficher une fiche détail d’équipement
-- [ ] Ajouter un filtre par `UserRole` (ADMIN / MAINTAINER / AUDITOR)
+- [x] Ajouter un filtre par `UserRole` (ADMIN / MAINTAINER / AUDITOR)
 - [ ] Intégrer Ktlint pour la qualité de code
 - [ ] Ajouter Mockito et des tests unitaires (UseCases / Repository / ViewModel)
 - [ ] Faire un dernier passage de refacto / nettoyage (naming, organisation, commentaires)
