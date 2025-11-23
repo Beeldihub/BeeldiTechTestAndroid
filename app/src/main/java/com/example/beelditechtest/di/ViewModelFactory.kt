@@ -2,7 +2,7 @@ package com.example.beelditechtest.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.beelditechtest.domain.usecase.GetEquipmentsUseCase
-import com.example.beelditechtest.presentation.equipment.EquipmentListViewModel
+import com.example.beelditechtest.presentation.equipment.list.EquipmentListViewModel
 
 class EquipmentViewModelFactory(
     private val getEquipmentsUseCase: GetEquipmentsUseCase

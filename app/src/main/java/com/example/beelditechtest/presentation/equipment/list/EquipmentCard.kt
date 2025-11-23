@@ -1,4 +1,4 @@
-package com.example.beelditechtest.presentation.equipment
+package com.example.beelditechtest.presentation.equipment.list
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,14 +11,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.beelditechtest.domain.model.Equipment
+import androidx.compose.foundation.clickable
 
 @Composable
 fun EquipmentCard(
     equipment: Equipment,
+    onClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier
+            .clickable(onClick = onClick),  // ← AJOUTER
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(

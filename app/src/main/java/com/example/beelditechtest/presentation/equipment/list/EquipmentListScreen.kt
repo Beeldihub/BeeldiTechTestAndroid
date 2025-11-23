@@ -1,4 +1,4 @@
-package com.example.beelditechtest.presentation.equipment
+package com.example.beelditechtest.presentation.equipment.list
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,6 +45,7 @@ fun EquipmentListError(
 @Composable
 fun EquipmentListContent(
     equipments: List<Equipment>,
+    onEquipmentClick: (Equipment) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -55,6 +56,7 @@ fun EquipmentListContent(
         items(equipments) { equipment ->
             EquipmentCard(
                 equipment = equipment,
+                onClick = { onEquipmentClick(equipment) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
@@ -67,6 +69,7 @@ fun EquipmentListContent(
 fun EquipmentListScreen(
     uiState: EquipmentListUiState,
     onRetry: () -> Unit = {},
+    onEquipmentClick: (Equipment) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     when (val currentState = uiState) {
@@ -82,6 +85,7 @@ fun EquipmentListScreen(
         is EquipmentListUiState.Success -> {
             EquipmentListContent(
                 equipments = currentState.equipments,
+                onEquipmentClick = onEquipmentClick,
                 modifier = modifier
             )
         }

@@ -19,22 +19,4 @@ object EquipmentMapper {
     fun toDomainList(entities: List<EquipmentEntity>): List<Equipment> {
         return entities.map { toDomain(it) }
     }
-
-
-    fun toData(equipment: Equipment): EquipmentEntity {
-        return EquipmentEntity(
-            id = equipment.id,
-            name = equipment.name,
-            brand = equipment.brand,
-            model = equipment.model,
-            serialNumber = equipment.serialNumber,
-            location = equipment.location,
-            type = equipment.type
-        )
-    }
-
-
-    fun toDataList(equipments: List<Equipment>): List<EquipmentEntity> {
-        return equipments.map { toData(it) }
-    }
 }

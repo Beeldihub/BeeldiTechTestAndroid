@@ -1,4 +1,4 @@
-package com.example.beelditechtest.presentation.equipment
+package com.example.beelditechtest.presentation.equipment.list
 import com.example.beelditechtest.domain.model.Equipment
 
 sealed class EquipmentListUiState {

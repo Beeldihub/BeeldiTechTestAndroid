@@ -4,19 +4,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import com.example.beelditechtest.di.AppModule
 import com.example.beelditechtest.di.EquipmentViewModelFactory
-import com.example.beelditechtest.presentation.equipment.EquipmentListScreen
-import com.example.beelditechtest.presentation.equipment.EquipmentListViewModel
+import com.example.beelditechtest.presentation.equipment.list.EquipmentListViewModel
+import com.example.beelditechtest.presentation.navigation.AppNavGraph
 import com.example.beelditechtest.presentation.theme.BeeldiTechTestTheme
-import com.example.beelditechtest.presentation.theme.screenBackground
+import androidx.navigation.compose.rememberNavController
+import com.example.beelditechtest.di.EquipmentDetailViewModelFactory
 
 class MainActivity : ComponentActivity() {
 
@@ -36,19 +30,15 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             BeeldiTechTestTheme {
-                val uiState by viewModel.state.collectAsState()
+                val navController = rememberNavController()
 
-                Scaffold(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(screenBackground)
-                ) { innerPadding ->
-                    EquipmentListScreen(
-                        uiState = uiState,
-                        onRetry = { viewModel.loadEquipments() },
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                AppNavGraph(
+                    navController = navController,
+                    equipmentListViewModel = viewModel,
+                    equipmentDetailViewModelFactory = { equipment ->
+                        EquipmentDetailViewModelFactory(equipment)
+                    }
+                )
             }
         }
     }
