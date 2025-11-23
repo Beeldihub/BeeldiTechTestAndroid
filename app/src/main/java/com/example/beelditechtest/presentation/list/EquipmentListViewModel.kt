@@ -2,6 +2,7 @@ package com.example.beelditechtest.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.beelditechtest.domain.models.Equipment
 import com.example.beelditechtest.domain.usecases.GetEquipmentsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -46,4 +47,9 @@ class EquipmentListViewModel(
                 }
         }
     }
+    // ADD : Function to find equipment by id
+    fun getEquipmentById(id: String): Equipment? {
+        return state.value.equipments.find { it.id == id }
+    }
+
 }

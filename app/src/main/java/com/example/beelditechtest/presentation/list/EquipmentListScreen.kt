@@ -24,8 +24,8 @@ import com.example.beelditechtest.domain.models.Equipment
 @Composable
 fun EquipmentListScreen(
     viewModel: EquipmentListViewModel,
+    onEquipmentClick: (Equipment) -> Unit,
     modifier: Modifier = Modifier,
-    onEquipmentClick: (Equipment) -> Unit = {}
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -68,12 +68,13 @@ fun EquipmentListScreen(
                     items(state.equipments) { equipment ->
                         EquipmentCard(
                             equipment = equipment,
+                            onClick = { onEquipmentClick(equipment) },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 8.dp),
-                            onClick = { onEquipmentClick(equipment) }
+                                .padding(vertical = 8.dp)
                         )
                     }
+
                 }
             }
         }
@@ -88,11 +89,12 @@ fun EquipmentListScreen(
 @Composable
 fun EquipmentCard(
     equipment: Equipment,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: (Equipment) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier.clickable(onClick = onClick),
+        modifier = modifier
+            .clickable { onClick(equipment) },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
