@@ -52,19 +52,28 @@ fun EquipmentListScreen(
         }
 
         else -> {
-            LazyColumn(
-                modifier = modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-            ) {
-                items(state.equipments) { equipment ->
-                    EquipmentCard(
-                        equipment = equipment,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        onClick = { onEquipmentClick(equipment) }
-                    )
+            if (state.equipments.isEmpty()) {
+                Box(
+                    modifier = modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("Aucun équipement disponible.")
+                }
+            } else { // Add Error handling
+                LazyColumn(
+                    modifier = modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                ) {
+                    items(state.equipments) { equipment ->
+                        EquipmentCard(
+                            equipment = equipment,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
+                            onClick = { onEquipmentClick(equipment) }
+                        )
+                    }
                 }
             }
         }

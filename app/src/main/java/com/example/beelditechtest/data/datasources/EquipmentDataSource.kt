@@ -25,25 +25,34 @@ class EquipmentDataSource(private val context: Context) {
             for (i in 0 until jsonArray.length()) {
                 val jsonObject = jsonArray.getJSONObject(i)
 
-                val typeAsString = jsonObject.getString("type")
-                val type = typeAsString.toIntOrNull() ?: 0
+                try {
+                    val id = jsonObject.optString("id") ?: continue
+                    val name = jsonObject.optString("name", "Unnamed equipment")
+                    val brand = jsonObject.optString("brand", "")
+                    val model = jsonObject.optString("model", "")
+                    val serialNumber = jsonObject.optString("serialNumber", "")
+                    val location = jsonObject.optString("location", "")
+                    val typeAsString = jsonObject.optString("type", "0")
+                    val type = typeAsString.toIntOrNull() ?: 0
 
-                val equipment = EquipmentEntity(
-                    id = jsonObject.getString("id"),
-                    name = jsonObject.getString("name"),
-                    brand = jsonObject.getString("brand"),
-                    model = jsonObject.getString("model"),
-                    serialNumber = jsonObject.getString("serialNumber"),
-                    location = jsonObject.getString("location"),
-                    type = type
-                )
-                equipments.add(equipment)
+                    val equipment = EquipmentEntity(
+                        id = id,
+                        name = name,
+                        brand = brand,
+                        model = model,
+                        serialNumber = serialNumber,
+                        location = location,
+                        type = type
+                    )
+                    equipments.add(equipment)
+                } catch (_: Exception) {
+                    // When there's an error, we ignore it to continue to show
+                    continue
+                }
             }
 
             emit(equipments)
         } catch (e: IOException) {
-            emit(emptyList())
-        } catch (e: Exception) {
             emit(emptyList())
         }
     }.flowOn(Dispatchers.IO)
