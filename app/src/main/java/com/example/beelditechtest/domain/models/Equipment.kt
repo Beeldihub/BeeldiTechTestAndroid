@@ -1,6 +1,8 @@
-package com.example.beelditechtest
+package com.example.beelditechtest.domain.models
 
-data class EquipmentEntity(
+/** Domain model used across the application logic. */
+
+data class Equipment(
     val id: String,
     val name: String,
     val brand: String,

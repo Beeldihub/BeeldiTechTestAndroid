@@ -1,37 +1,40 @@
-# Bienvenue dans votre test technique Android !
+# Beeldi – Android Technical Test
 
-Vous disposez de 7 jours pour effectuer ce test technique et nous renvoyer le lien vers votre repository
+This project is an implementation of the Beeldi technical test.  
+It focuses on code quality, Clean Architecture, modern Android standards and a simple, maintainable structure.
 
-## Voici que l'on attend de vous dans ce test :
+## 🚀 Tech Stack
+- **Kotlin**
+- **Jetpack Compose** (UI)
+- **Coroutines + Flow**
+- **StateFlow** (UI state management)
+- **Clean Architecture** (data / domain / presentation)
+- **Manual DI** (kept simple for the test)
+- **JUnit + Mockito**
+- **Ktlint** for code style checks
 
-- Cloner le repository et pousser vos modifications sur un repository de votre compte github
-- Corriger les erreurs de compilation
-- Utiliser la clean archi
-- Modifier le datasource pour qu'il retourne un Flow<>
-- S'assurer que le code fonctionne dans les meilleurs conditions
-- Ne pas hésiter à réparer/refactorer/réordonner le projet
-- Ajouter Ktlint et Mockito
-- Au clic d'un équipement, afficher une fiche d'équipement
-- Ajouter un filtre en fonction du UserRole (choisir le rôle dans la UI de la liste des équipements) :
-    - Si UserRole est ADMIN, alors afficher tous les équipements
-    - Si UserRole est MAINTAINER, alors afficher les équipements de type 0 et 1
-    - Si UserRole est AUDITOR, alors afficher les équipements de type 0
+---
 
-Vous pouvez vous aider des librairies de votre choix, en justifiant !
+## ✅ Progress & Requirements
 
+- [x] Cloner le repository de test et pousser les modifications sur un repo GitHub perso
+- [x] Corriger les erreurs de compilation initiales
+- [x] Mettre en place une structure inspirée de la Clean Architecture (data / domain / presentation)
+- [x] Modifier le datasource pour qu'il retourne un `Flow<List<...>>`
+- [x] Connecter le Flow au ViewModel via un `UseCase` et un `Repository`
+- [ ] Afficher la liste des équipements avec Jetpack Compose
+- [ ] Au clic sur un équipement, afficher une fiche détail d’équipement
+- [ ] Ajouter un filtre par `UserRole` (ADMIN / MAINTAINER / AUDITOR)
+- [ ] Intégrer Ktlint pour la qualité de code
+- [ ] Ajouter Mockito et des tests unitaires (UseCases / Repository / ViewModel)
+- [ ] Faire un dernier passage de refacto / nettoyage (naming, organisation, commentaires)
 
-## Voici un exemple des écrans que l'on attend de vous :
+## Screen examples :
 
-Liste des équipements : 
+Equipment list : 
 
 <img width="743" height="1175" alt="image" src="https://github.com/user-attachments/assets/0c13af0e-5a03-4d18-9a23-6f055e77370f" />
 
-Fiche équipement : 
+Equipment details :
 
 <img width="743" height="1171" alt="image" src="https://github.com/user-attachments/assets/86ab3ad1-bd3a-4486-9262-4ce459c8fcf1" />
-
-## Recommandations :
-
-Pour ce test technique, nous vous invitions à respecter les bonnes pratiques recommandées par la documentation Android.
-
-Si vous avez des questions concernant ce test technique, vous pouvez nous les poser à cette adresse : arthur.mercier@beeldi.com
