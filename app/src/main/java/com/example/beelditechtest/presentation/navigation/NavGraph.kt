@@ -43,6 +43,9 @@ fun AppNavGraph(
             EquipmentListScreen(
                 uiState = uiState,
                 onRetry = { equipmentListViewModel.loadEquipments() },
+                onRoleSelected = { role ->
+                    equipmentListViewModel.selectRole(role)
+                },
                 onEquipmentClick = { equipment ->
                     navController.navigate(
                         Screen.EquipmentDetail.createRoute(equipment.id)

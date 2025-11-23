@@ -1,6 +1,7 @@
 package com.example.beelditechtest.domain.repository
 import com.example.beelditechtest.domain.model.Equipment
+import kotlinx.coroutines.flow.Flow
 
 interface EquipmentRepository {
-    suspend fun getEquipments(): Result<List<Equipment>>
+    fun getEquipments(): Flow<Result<List<Equipment>>>
 }

@@ -21,7 +21,7 @@ fun EquipmentCard(
 ) {
     Card(
         modifier = modifier
-            .clickable(onClick = onClick),  // ← AJOUTER
+            .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(

@@ -3,18 +3,22 @@ import com.example.beelditechtest.data.datasource.local.EquipmentLocalDataSource
 import com.example.beelditechtest.data.mapper.EquipmentMapper
 import com.example.beelditechtest.domain.model.Equipment
 import com.example.beelditechtest.domain.repository.EquipmentRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 
 class EquipmentRepositoryImpl(
     private val localDataSource: EquipmentLocalDataSource
 ) : EquipmentRepository {
 
-    override suspend fun getEquipments(): Result<List<Equipment>> {
-        return try {
-            val entities = localDataSource.getEquipments()
-            val equipments = EquipmentMapper.toDomainList(entities)
-            Result.success(equipments)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
+    override fun getEquipments(): Flow<Result<List<Equipment>>> {
+        return localDataSource.getEquipments()
+            .map { entities ->
+                val equipments = EquipmentMapper.toDomainList(entities)
+                Result.success(equipments)
+            }
+            .catch { e ->
+                emit(Result.failure(e))
+            }
     }
 }
