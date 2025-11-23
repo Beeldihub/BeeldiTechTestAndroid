@@ -1,40 +1,50 @@
-package com.example.beelditechtest
+package com.example.beelditechtest.data.datasources
 
 import android.content.Context
+import com.example.beelditechtest.data.models.EquipmentEntity
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import org.json.JSONArray
 import java.io.IOException
 
+/** Loads equipment data from the local JSON asset. */
+
 class EquipmentDataSource(private val context: Context) {
 
-    suspend fun getEquipments(): List<EquipmentEntity> = withContext(Dispatchers.Main) {
+    fun getEquipments(): Flow<List<EquipmentEntity>> = flow {
         try {
             val jsonString = context.assets.open("equipments.json")
                 .bufferedReader()
                 .use { it.readText() }
 
             val jsonArray = JSONArray(jsonString)
-            val equipmentEntities = mutableListOf<EquipmentEntity>()
+            val equipments = mutableListOf<EquipmentEntity>()
 
             for (i in 0 until jsonArray.length()) {
                 val jsonObject = jsonArray.getJSONObject(i)
-                val equipmentEntity = EquipmentEntity(
+
+                val typeAsString = jsonObject.getString("type")
+                val type = typeAsString.toIntOrNull() ?: 0
+
+                val equipment = EquipmentEntity(
                     id = jsonObject.getString("id"),
                     name = jsonObject.getString("name"),
                     brand = jsonObject.getString("brand"),
                     model = jsonObject.getString("model"),
                     serialNumber = jsonObject.getString("serialNumber"),
-                    location = jsonObject.getString("location")
+                    location = jsonObject.getString("location"),
+                    type = type
                 )
-                equipmentEntities.add(equipmentEntity)
+                equipments.add(equipment)
             }
 
-            equipmentEntities
+            emit(equipments)
         } catch (e: IOException) {
-            emptyList()
+            emit(emptyList())
         } catch (e: Exception) {
-            emptyList()
+            emit(emptyList())
         }
-    }
+    }.flowOn(Dispatchers.IO)
 }

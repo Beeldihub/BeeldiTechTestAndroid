@@ -1,11 +1,9 @@
-package com.example.beelditechtest
+package com.example.beelditechtest.presentation.list
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -19,11 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.beelditechtest.domain.models.Equipment
+
+/** Displays the equipment list based on the current UI state. */
 
 @Composable
 fun EquipmentListScreen(
     viewModel: EquipmentListViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onEquipmentClick: (Equipment) -> Unit = {}
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -36,6 +38,7 @@ fun EquipmentListScreen(
                 CircularProgressIndicator()
             }
         }
+
         state.error != null -> {
             Box(
                 modifier = modifier.fillMaxSize(),
@@ -47,6 +50,7 @@ fun EquipmentListScreen(
                 )
             }
         }
+
         else -> {
             LazyColumn(
                 modifier = modifier
@@ -55,24 +59,31 @@ fun EquipmentListScreen(
             ) {
                 items(state.equipments) { equipment ->
                     EquipmentCard(
-                        equipmentEntity = equipment,
+                        equipment = equipment,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp)
+                            .padding(vertical = 8.dp),
+                        onClick = { onEquipmentClick(equipment) }
                     )
                 }
             }
         }
     }
 }
+/**
+ * Card displaying a single equipment item.
+ *
+ * Pure UI: does not contain any business or data logic.
+ */
 
 @Composable
 fun EquipmentCard(
-    equipmentEntity: EquipmentEntity,
-    modifier: Modifier = Modifier
+    equipment: Equipment,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier.clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
@@ -81,25 +92,30 @@ fun EquipmentCard(
                 .padding(16.dp)
         ) {
             Text(
-                text = equipmentEntity.name,
+                text = equipment.name,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "${equipmentEntity.brand} - ${equipmentEntity.model}",
+                text = "${equipment.brand} - ${equipment.model}",
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(top = 4.dp)
             )
             Text(
-                text = "Série: ${equipmentEntity.serialNumber}",
-                style = MaterialTheme.typography.headlineLarge,
+                text = "Série: ${equipment.serialNumber}",
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(top = 4.dp)
             )
             Text(
-                text = equipmentEntity.location,
+                text = equipment.location,
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.Red,
+                color = Color.Gray,
                 modifier = Modifier.padding(top = 8.dp)
+            )
+            Text(
+                text = "Type: ${equipment.type}",
+                style = MaterialTheme.typography.labelSmall,
+                modifier = Modifier.padding(top = 4.dp)
             )
         }
     }
