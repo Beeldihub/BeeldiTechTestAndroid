@@ -22,8 +22,8 @@ It focuses on code quality, Clean Architecture, modern Android standards and a s
 - [x] Mettre en place une structure inspirée de la Clean Architecture (data / domain / presentation)
 - [x] Modifier le datasource pour qu'il retourne un `Flow<List<...>>`
 - [x] Connecter le Flow au ViewModel via un `UseCase` et un `Repository`
-- [ ] Afficher la liste des équipements avec Jetpack Compose
-- [ ] Au clic sur un équipement, afficher une fiche détail d’équipement
+- [x] Afficher la liste des équipements avec Jetpack Compose
+- [x] Au clic sur un équipement, afficher une fiche détail d’équipement
 - [ ] Ajouter un filtre par `UserRole` (ADMIN / MAINTAINER / AUDITOR)
 - [ ] Intégrer Ktlint pour la qualité de code
 - [ ] Ajouter Mockito et des tests unitaires (UseCases / Repository / ViewModel)
