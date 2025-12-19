@@ -1,9 +1,10 @@
-package com.example.beelditechtest.data.db
+package com.example.beelditechtest.data.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.beelditechtest.data.db.AppDataBase
 
-object DatabaseProvider {
+object DatabaseModule {
     fun provide(context: Context): AppDataBase {
         return Room.databaseBuilder(
             context,
