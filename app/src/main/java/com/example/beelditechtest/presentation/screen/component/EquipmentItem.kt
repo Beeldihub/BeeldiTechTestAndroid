@@ -1,9 +1,9 @@
 package com.example.beelditechtest.presentation.screen.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,9 +20,15 @@ import androidx.compose.ui.unit.dp
 import com.example.beelditechtest.domain.model.Equipment
 
 @Composable
-fun EquipmentItem(modifier: Modifier = Modifier, equipment: Equipment) {
+fun EquipmentItem(
+    modifier: Modifier = Modifier,
+    equipment: Equipment,
+    onClick: () -> Unit = {}
+) {
     Surface(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(12.dp),
         color = MaterialTheme.colorScheme.onPrimary
     ) {

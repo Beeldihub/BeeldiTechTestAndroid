@@ -15,7 +15,7 @@ class EquipmentListViewModel @Inject constructor(
     private val getAllEquipmentUseCase: GetAllEquipmentUseCase
 ) : ViewModel() {
 
-    private val _equipments = MutableStateFlow<EquipmentListState>(EquipmentListState.Idle)
+    private val _equipments = MutableStateFlow<EquipmentListState>(EquipmentListState.Loading)
     val equipments = _equipments.asStateFlow()
 
     init {
@@ -24,7 +24,6 @@ class EquipmentListViewModel @Inject constructor(
 
     fun loadEquipments() {
         viewModelScope.launch {
-            _equipments.value = EquipmentListState.Loading
             try {
                 getAllEquipmentUseCase().collect { equipmentList ->
                     _equipments.value = EquipmentListState.Success(equipmentList)
