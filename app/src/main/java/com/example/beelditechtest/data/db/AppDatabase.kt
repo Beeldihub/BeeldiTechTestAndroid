@@ -7,8 +7,9 @@ import com.example.beelditechtest.data.db.entities.EquipmentEntity
 
 @Database(
     entities = [EquipmentEntity::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
-abstract class AppDataBase:  RoomDatabase() {
+abstract class AppDataBase : RoomDatabase() {
     abstract fun equipmentDao(): EquipmentDao
 }

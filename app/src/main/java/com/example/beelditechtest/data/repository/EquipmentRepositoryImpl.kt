@@ -6,8 +6,9 @@ import com.example.beelditechtest.domain.model.Equipment
 import com.example.beelditechtest.domain.repository.EquipmentRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class EquipmentRepositoryImpl(
+class EquipmentRepositoryImpl @Inject constructor(
     private val equipmentDao: EquipmentDao
 ) : EquipmentRepository {
     override fun getAllEquipments(): Flow<List<Equipment>> =

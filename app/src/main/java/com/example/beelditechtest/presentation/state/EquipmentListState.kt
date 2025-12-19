@@ -1,5 +1,10 @@
 package com.example.beelditechtest.presentation.state
 
-data class EquipmentListState(
-    val todo: String? = null
-)
+import com.example.beelditechtest.domain.model.Equipment
+
+sealed class EquipmentListState {
+    data object Idle : EquipmentListState()
+    data object Loading : EquipmentListState()
+    data class Success(val equipments: List<Equipment>) : EquipmentListState()
+    data class Error(val message: String) : EquipmentListState()
+}
