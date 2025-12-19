@@ -1,6 +1,7 @@
 package com.example.beelditechtest
 
 import android.content.Context
+import com.example.beelditechtest.data.db.entities.EquipmentEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -20,11 +21,14 @@ class EquipmentDataSource(private val context: Context) {
             for (i in 0 until jsonArray.length()) {
                 val jsonObject = jsonArray.getJSONObject(i)
                 val equipmentEntity = EquipmentEntity(
-                    id = jsonObject.getString("id"),
+                    id = jsonObject.getInt("id"),
                     name = jsonObject.getString("name"),
                     brand = jsonObject.getString("brand"),
                     model = jsonObject.getString("model"),
                     serialNumber = jsonObject.getString("serialNumber"),
+                    local = jsonObject.getString("local"),
+                    level = jsonObject.getString("level"),
+                    type = jsonObject.getInt("type")
                 )
                 equipmentEntities.add(equipmentEntity)
             }

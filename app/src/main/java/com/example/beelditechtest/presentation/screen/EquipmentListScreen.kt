@@ -23,9 +23,9 @@ import com.example.beelditechtest.presentation.viewmodel.EquipmentListViewModel
 
 @Composable
 fun EquipmentListScreen(
+    modifier: Modifier = Modifier,
     viewModel: EquipmentListViewModel,
-    onEquipmentClick: (Int) -> Unit = {},
-    modifier: Modifier = Modifier
+    onEquipmentClick: (Int) -> Unit = {}
 ) {
     val state = viewModel.equipments.collectAsStateWithLifecycle().value
 
