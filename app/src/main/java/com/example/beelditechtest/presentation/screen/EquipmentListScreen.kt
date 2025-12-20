@@ -13,10 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.beelditechtest.domain.model.Equipment
 import com.example.beelditechtest.presentation.screen.component.EquipmentItem
 import com.example.beelditechtest.presentation.state.EquipmentListState
 import com.example.beelditechtest.presentation.viewmodel.EquipmentListViewModel
@@ -30,8 +28,8 @@ fun EquipmentListScreen(
     val state = viewModel.equipments.collectAsStateWithLifecycle().value
 
     Surface(
-        modifier = modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.surfaceContainerHigh
+        modifier = modifier
+            .fillMaxSize()
     ) {
         when (state) {
             is EquipmentListState.Loading -> {
@@ -42,6 +40,7 @@ fun EquipmentListScreen(
                     CircularProgressIndicator()
                 }
             }
+
             is EquipmentListState.Success -> {
                 if (state.equipments.isEmpty()) {
                     Box(
@@ -67,6 +66,7 @@ fun EquipmentListScreen(
                     }
                 }
             }
+
             is EquipmentListState.Error -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -81,10 +81,4 @@ fun EquipmentListScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun EquipmentListScreenPreview() {
-    // Preview sans ViewModel pour l'instant
 }
