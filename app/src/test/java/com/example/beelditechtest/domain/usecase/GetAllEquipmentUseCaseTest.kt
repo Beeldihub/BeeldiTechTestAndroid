@@ -3,7 +3,7 @@ package com.example.beelditechtest.domain.usecase
 import app.cash.turbine.test
 import com.example.beelditechtest.domain.model.Equipment
 import com.example.beelditechtest.domain.repository.EquipmentRepository
-import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import org.junit.Test
 import junit.framework.TestCase.assertEquals
@@ -25,7 +25,7 @@ class GetAllEquipmentUseCaseTest {
             Equipment(3, "name", "brand", "model", "serialNumber", "local", "level", 1),
         )
         val flow = flowOf(expected)
-        coEvery { repository.getAllEquipments() } returns flow
+        every { repository.getAllEquipments() } returns flow
 
         useCase().test {
             val result = awaitItem()
@@ -39,7 +39,7 @@ class GetAllEquipmentUseCaseTest {
     fun `return empty list when repository is empty`() = runTest {
         val expected = emptyList<Equipment>()
         val flow = flowOf(expected)
-        coEvery { repository.getAllEquipments() } returns flow
+        every { repository.getAllEquipments() } returns flow
 
         useCase().test {
             val result = awaitItem()

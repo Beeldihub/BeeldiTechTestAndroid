@@ -5,6 +5,7 @@ import com.example.beelditechtest.data.db.dao.EquipmentDao
 import com.example.beelditechtest.data.db.entities.EquipmentEntity
 import com.example.beelditechtest.domain.model.Equipment
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -26,7 +27,7 @@ class EquipmentRepositoryImplTest {
             Equipment(2, "name", "brand", "model", "serialNumber", "local", "level", 1)
         )
         val flowEquipmentEntities = flowOf(equipmentEntities)
-        coEvery { equipmentDao.getAllEquipments() } returns flowEquipmentEntities
+        every { equipmentDao.getAllEquipments() } returns flowEquipmentEntities
 
         equipmentRepository.getAllEquipments().test {
             val result = awaitItem()
