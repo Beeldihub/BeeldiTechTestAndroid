@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.devtools.ksp)
-
+    alias(libs.plugins.ktlint)
 }
 
 android {
@@ -28,7 +28,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -46,6 +46,19 @@ android {
 
 hilt {
     enableAggregatingTask = false
+}
+
+ktlint {
+    android.set(true)
+    verbose.set(true)
+    outputToConsole.set(true)
+    ignoreFailures.set(false)
+    coloredOutput.set(true)
+
+    filter {
+        exclude("**/generated/**")
+        include("**/kotlin/**")
+    }
 }
 
 dependencies {

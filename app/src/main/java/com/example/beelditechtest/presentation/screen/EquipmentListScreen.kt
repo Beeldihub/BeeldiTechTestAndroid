@@ -23,19 +23,20 @@ import com.example.beelditechtest.presentation.viewmodel.EquipmentListViewModel
 fun EquipmentListScreen(
     modifier: Modifier = Modifier,
     viewModel: EquipmentListViewModel,
-    onEquipmentClick: (Int) -> Unit = {}
+    onEquipmentClick: (Int) -> Unit = {},
 ) {
     val state = viewModel.equipments.collectAsStateWithLifecycle().value
 
     Surface(
-        modifier = modifier
-            .fillMaxSize()
+        modifier =
+            modifier
+                .fillMaxSize(),
     ) {
         when (state) {
             is EquipmentListState.Loading -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     CircularProgressIndicator()
                 }
@@ -45,22 +46,22 @@ fun EquipmentListScreen(
                 if (state.equipments.isEmpty()) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
+                        contentAlignment = Alignment.Center,
                     ) {
                         Text(
                             text = "Aucun équipement trouvé",
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyLarge,
                         )
                     }
                 } else {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.padding(14.dp)
+                        modifier = Modifier.padding(14.dp),
                     ) {
                         items(state.equipments) { equipment ->
                             EquipmentItem(
                                 equipment = equipment,
-                                onClick = { onEquipmentClick(equipment.id) }
+                                onClick = { onEquipmentClick(equipment.id) },
                             )
                         }
                     }
@@ -70,12 +71,12 @@ fun EquipmentListScreen(
             is EquipmentListState.Error -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = "Erreur: ${state.message}",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.error
+                        color = MaterialTheme.colorScheme.error,
                     )
                 }
             }

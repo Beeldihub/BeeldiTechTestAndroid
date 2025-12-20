@@ -14,12 +14,12 @@ import com.example.beelditechtest.presentation.viewmodel.EquipmentListViewModel
 fun NavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    startDestination: String = Screen.EquipmentList.route
+    startDestination: String = Screen.EquipmentList.route,
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination,
-        modifier = modifier
+        modifier = modifier,
     ) {
         composable(route = Screen.EquipmentList.route) {
             val viewModel: EquipmentListViewModel = hiltViewModel()
@@ -27,17 +27,18 @@ fun NavGraph(
                 viewModel = viewModel,
                 onEquipmentClick = { equipmentId ->
                     navController.navigate(Screen.EquipmentDetail.createRoute(equipmentId))
-                }
+                },
             )
         }
 
         composable(
             route = Screen.EquipmentDetail.route,
-            arguments = listOf(
-                navArgument("equipmentId") {
-                    type = androidx.navigation.NavType.IntType
-                }
-            )
+            arguments =
+                listOf(
+                    navArgument("equipmentId") {
+                        type = androidx.navigation.NavType.IntType
+                    },
+                ),
         ) { backStackEntry ->
             val equipmentId = backStackEntry.arguments?.getInt("equipmentId") ?: 0
             // TODO: Créer EquipmentDetailScreen et EquipmentDetailViewModel
@@ -49,4 +50,3 @@ fun NavGraph(
         }
     }
 }
-

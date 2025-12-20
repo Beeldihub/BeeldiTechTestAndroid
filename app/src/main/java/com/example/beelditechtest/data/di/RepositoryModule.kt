@@ -11,10 +11,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 abstract class RepositoryModule {
-
     @Binds
     @Singleton
-    abstract fun bindEquipmentRepository(
-        equipmentRepositoryImpl: EquipmentRepositoryImpl
-    ): EquipmentRepository
+    abstract fun bindEquipmentRepository(equipmentRepositoryImpl: EquipmentRepositoryImpl): EquipmentRepository
 }

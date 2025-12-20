@@ -23,40 +23,40 @@ import com.example.beelditechtest.domain.model.Equipment
 fun EquipmentItem(
     modifier: Modifier = Modifier,
     equipment: Equipment,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .clickable(onClick = onClick),
         shape = RoundedCornerShape(12.dp),
-        color = MaterialTheme.colorScheme.primary
+        color = MaterialTheme.colorScheme.primary,
     ) {
         Row(
             modifier = Modifier.padding(18.dp, 14.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(
                     text = equipment.name,
                     style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
                 Text(text = "${equipment.brand} - ${equipment.model}")
-
             }
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalAlignment = Alignment.End
+                horizontalAlignment = Alignment.End,
             ) {
                 Text(
                     text = "Série: ${equipment.serialNumber}",
-                    style = MaterialTheme.typography.labelSmall
+                    style = MaterialTheme.typography.labelSmall,
                 )
                 Text(
                     text = equipment.local,
                     style = MaterialTheme.typography.labelSmall,
-                    color = Color.Red
+                    color = Color.Red,
                 )
             }
         }
@@ -67,15 +67,16 @@ fun EquipmentItem(
 @Composable
 fun EquipmentItemPreview() {
     EquipmentItem(
-        equipment = Equipment(
-            id = 1,
-            name = "Equipment 1",
-            brand = "Brand 1",
-            model = "Model 1",
-            serialNumber = "Serial 1",
-            local = "Local 1",
-            level = "Level 1",
-            type = 1
-        )
+        equipment =
+            Equipment(
+                id = 1,
+                name = "Equipment 1",
+                brand = "Brand 1",
+                model = "Model 1",
+                serialNumber = "Serial 1",
+                local = "Local 1",
+                level = "Level 1",
+                type = 1,
+            ),
     )
 }

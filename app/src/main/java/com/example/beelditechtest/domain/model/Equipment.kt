@@ -8,5 +8,5 @@ data class Equipment(
     val serialNumber: String,
     val local: String,
     val level: String?,
-    val type: Int
+    val type: Int,
 )

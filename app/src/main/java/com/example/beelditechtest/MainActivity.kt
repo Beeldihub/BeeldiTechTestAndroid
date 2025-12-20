@@ -24,11 +24,11 @@ class MainActivity : ComponentActivity() {
             BeeldiTechTestTheme {
                 val navController = rememberNavController()
                 Scaffold(
-                    modifier = Modifier.fillMaxSize().background(screenBackground)
+                    modifier = Modifier.fillMaxSize().background(screenBackground),
                 ) { innerPadding ->
                     NavGraph(
                         navController = navController,
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
                     )
                 }
             }

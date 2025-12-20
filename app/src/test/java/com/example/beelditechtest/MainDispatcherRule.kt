@@ -11,12 +11,21 @@ import org.junit.runner.Description
 import org.junit.runners.model.Statement
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class MainDispatcherRule(private val dispatcher: TestDispatcher = StandardTestDispatcher()):
-    TestRule {
-    override fun apply(base: Statement, description: Description): Statement = object : Statement() {
-        override fun evaluate() {
-            Dispatchers.setMain(dispatcher)
-            try { base.evaluate() } finally { Dispatchers.resetMain() }
+class MainDispatcherRule(
+    private val dispatcher: TestDispatcher = StandardTestDispatcher(),
+) : TestRule {
+    override fun apply(
+        base: Statement,
+        description: Description,
+    ): Statement =
+        object : Statement() {
+            override fun evaluate() {
+                Dispatchers.setMain(dispatcher)
+                try {
+                    base.evaluate()
+                } finally {
+                    Dispatchers.resetMain()
+                }
+            }
         }
-    }
 }

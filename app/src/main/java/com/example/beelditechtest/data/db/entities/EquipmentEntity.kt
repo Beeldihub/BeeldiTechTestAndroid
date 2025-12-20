@@ -13,5 +13,5 @@ data class EquipmentEntity(
     val serialNumber: String,
     val local: String,
     val level: String?,
-    val type: Int
+    val type: Int,
 )

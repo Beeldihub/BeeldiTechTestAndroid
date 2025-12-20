@@ -2,22 +2,23 @@ package com.example.beelditechtest.data.mapper
 
 import com.example.beelditechtest.data.db.entities.EquipmentEntity
 import com.example.beelditechtest.domain.model.Equipment
-import org.junit.Test
 import junit.framework.TestCase.assertEquals
+import org.junit.Test
 
 class EquipmentMapperTest {
     @Test
     fun `toDomain should map EquipmentEntity to Equipment`() {
-        val equipmentEntity = EquipmentEntity(
-            1,
-            "name",
-            "brand",
-            "model",
-            "serialNumber",
-            "local",
-            "level",
-            1
-        )
+        val equipmentEntity =
+            EquipmentEntity(
+                1,
+                "name",
+                "brand",
+                "model",
+                "serialNumber",
+                "local",
+                "level",
+                1,
+            )
         val equipment: Equipment = equipmentEntity.toDomain()
 
         assertEquals(equipmentEntity.id, equipment.id)

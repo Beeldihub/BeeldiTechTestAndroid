@@ -14,21 +14,18 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 object DatabaseModule {
-
     @Provides
     @Singleton
     fun provideAppDatabase(
-        @ApplicationContext context: Context
-    ): AppDataBase {
-        return Room.databaseBuilder(
-            context,
-            AppDataBase::class.java,
-            "equipment-db"
-        ).build()
-    }
+        @ApplicationContext context: Context,
+    ): AppDataBase =
+        Room
+            .databaseBuilder(
+                context,
+                AppDataBase::class.java,
+                "equipment-db",
+            ).build()
 
     @Provides
-    fun provideEquipmentDao(database: AppDataBase): EquipmentDao {
-        return database.equipmentDao()
-    }
+    fun provideEquipmentDao(database: AppDataBase): EquipmentDao = database.equipmentDao()
 }
