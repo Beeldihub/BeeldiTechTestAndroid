@@ -2,7 +2,7 @@ package com.example.beelditechtest.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.beelditechtest.domain.usecase.GetAllEquipmentUseCase
+import com.example.beelditechtest.domain.usecase.EquipmentUseCase
 import com.example.beelditechtest.presentation.state.EquipmentListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EquipmentListViewModel @Inject constructor(
-    private val getAllEquipmentUseCase: GetAllEquipmentUseCase
+    private val equipmentUseCase: EquipmentUseCase
 ) : ViewModel() {
 
     private val _equipments = MutableStateFlow<EquipmentListState>(EquipmentListState.Loading)
@@ -25,7 +25,7 @@ class EquipmentListViewModel @Inject constructor(
     fun loadEquipments() {
         viewModelScope.launch {
             try {
-                getAllEquipmentUseCase().collect { equipmentList ->
+                equipmentUseCase.getAllEquipmentUseCase().collect { equipmentList ->
                     _equipments.value = EquipmentListState.Success(equipmentList)
                 }
             } catch (e: Exception) {

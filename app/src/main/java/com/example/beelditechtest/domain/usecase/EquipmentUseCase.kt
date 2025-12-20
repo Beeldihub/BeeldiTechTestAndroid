@@ -1,5 +1,7 @@
 package com.example.beelditechtest.domain.usecase
 
-data class EquipmentUseCase (
+import javax.inject.Inject
+
+data class EquipmentUseCase @Inject constructor(
     val getAllEquipmentUseCase: GetAllEquipmentUseCase
 )
