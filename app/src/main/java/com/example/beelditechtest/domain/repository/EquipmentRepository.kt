@@ -9,4 +9,6 @@ interface EquipmentRepository {
     fun getEquipmentById(id: Int): Flow<Equipment?>
 
     suspend fun updateEquipment(equipment: Equipment)
+
+    suspend fun insertEquipment(equipment: Equipment)
 }

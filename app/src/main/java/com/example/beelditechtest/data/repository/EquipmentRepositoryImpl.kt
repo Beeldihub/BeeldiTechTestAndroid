@@ -27,7 +27,7 @@ class EquipmentRepositoryImpl
                     id,
                 ).map { it.toDomain() }
 
-        override suspend fun updateEquipment(equipment: Equipment) {
-            equipmentDao.updateEquipment(equipment.toEntity())
-        }
+        override suspend fun updateEquipment(equipment: Equipment) = equipmentDao.updateEquipment(equipment.toEntity())
+
+        override suspend fun insertEquipment(equipment: Equipment) = equipmentDao.insertEquipment(equipment.toEntity())
     }

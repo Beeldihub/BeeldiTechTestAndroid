@@ -8,4 +8,5 @@ data class EquipmentUseCase
         val getAllEquipmentUseCase: GetAllEquipmentUseCase,
         val getEquipmentByIdUseCase: GetEquipmentById,
         val updateEquipmentUseCase: UpdateEquipmentUseCase,
+        val addEquipmentUseCase: AddEquipmentUseCase,
     )
