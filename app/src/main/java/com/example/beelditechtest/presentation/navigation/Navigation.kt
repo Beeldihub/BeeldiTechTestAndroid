@@ -7,7 +7,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.beelditechtest.presentation.ui.screen.EquipmentDetailScreen
 import com.example.beelditechtest.presentation.ui.screen.EquipmentListScreen
+import com.example.beelditechtest.presentation.viewmodel.EquipmentDetailViewModel
+import com.example.beelditechtest.presentation.viewmodel.EquipmentDetailViewModelFactory
 import com.example.beelditechtest.presentation.viewmodel.EquipmentListViewModel
 
 @Composable
@@ -41,12 +44,14 @@ fun NavGraph(
                 ),
         ) { backStackEntry ->
             val equipmentId = backStackEntry.arguments?.getInt("equipmentId") ?: 0
-            // TODO: Créer EquipmentDetailScreen et EquipmentDetailViewModel
-            // EquipmentDetailScreen(
-            //     viewModel = hiltViewModel<EquipmentDetailViewModel>(),
-            //     equipmentId = equipmentId,
-            //     onNavigateBack = { navController.popBackStack() }
-            // )
+            val viewModel = hiltViewModel<EquipmentDetailViewModel, EquipmentDetailViewModelFactory> {
+                factory -> factory.create(equipmentId)
+            }
+            EquipmentDetailScreen(
+                viewModel = viewModel,
+                equipmentId = equipmentId,
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
     }
 }

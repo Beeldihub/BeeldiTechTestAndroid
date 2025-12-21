@@ -6,4 +6,5 @@ data class EquipmentUseCase
     @Inject
     constructor(
         val getAllEquipmentUseCase: GetAllEquipmentUseCase,
+        val getEquipmentByIdUseCase: GetEquipmentById,
     )

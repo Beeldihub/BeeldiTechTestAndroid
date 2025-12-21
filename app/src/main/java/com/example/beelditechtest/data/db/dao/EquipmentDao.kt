@@ -9,4 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface EquipmentDao {
     @Query("SELECT * FROM equipment")
     fun getAllEquipments(): Flow<List<EquipmentEntity>>
+
+    @Query("SELECT * FROM equipment WHERE id = :id")
+    fun getEquipmentById(id: Int): Flow<EquipmentEntity>
 }
