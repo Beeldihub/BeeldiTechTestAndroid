@@ -14,3 +14,15 @@ fun EquipmentEntity.toDomain() =
         level = level,
         type = type,
     )
+
+fun Equipment.toEntity() =
+    EquipmentEntity(
+        id = id,
+        name = name,
+        brand = brand,
+        model = model,
+        serialNumber = serialNumber,
+        local = local,
+        level = level,
+        type = type,
+    )

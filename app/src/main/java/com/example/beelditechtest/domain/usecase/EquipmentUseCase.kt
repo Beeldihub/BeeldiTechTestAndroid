@@ -7,4 +7,5 @@ data class EquipmentUseCase
     constructor(
         val getAllEquipmentUseCase: GetAllEquipmentUseCase,
         val getEquipmentByIdUseCase: GetEquipmentById,
+        val updateEquipmentUseCase: UpdateEquipmentUseCase,
     )

@@ -44,6 +44,20 @@ class EquipmentDetailViewModel
                 }
             }
         }
+
+        fun updateEquipment(equipment: com.example.beelditechtest.domain.model.Equipment) {
+            viewModelScope.launch {
+                try {
+                    equipmentUseCase.updateEquipmentUseCase(equipment)
+                    loadEquipment()
+                } catch (e: Exception) {
+                    _equipment.value =
+                        UiState.Error(
+                            message = e.message ?: "Une erreur est survenue lors de la mise à jour",
+                        )
+                }
+            }
+        }
     }
 
 @AssistedFactory
