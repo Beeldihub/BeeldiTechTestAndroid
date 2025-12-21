@@ -15,3 +15,4 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun bindEquipmentRepository(equipmentRepositoryImpl: EquipmentRepositoryImpl): EquipmentRepository
 }
+
