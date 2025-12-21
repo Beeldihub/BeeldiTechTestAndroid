@@ -1,4 +1,4 @@
-package com.example.beelditechtest.ui.theme
+package com.example.beelditechtest.presentation.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

@@ -12,8 +12,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.beelditechtest.presentation.navigation.NavGraph
-import com.example.beelditechtest.ui.theme.BeeldiTechTestTheme
-import com.example.beelditechtest.ui.theme.screenBackground
+import com.example.beelditechtest.presentation.ui.theme.BeeldiTechTestTheme
+import com.example.beelditechtest.presentation.ui.theme.screenBackground
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.beelditechtest.presentation.screen.EquipmentListScreen
+import com.example.beelditechtest.presentation.ui.screen.EquipmentListScreen
 import com.example.beelditechtest.presentation.viewmodel.EquipmentListViewModel
 
 @Composable

@@ -1,4 +1,4 @@
-package com.example.beelditechtest.presentation.screen.component
+package com.example.beelditechtest.presentation.ui.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
