@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.beelditechtest.core.util.normalize
 import com.example.beelditechtest.domain.usecase.EquipmentUseCase
 import com.example.beelditechtest.presentation.state.EquipmentListState
+import com.example.beelditechtest.presentation.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +19,7 @@ class EquipmentListViewModel
     constructor(
         private val equipmentUseCase: EquipmentUseCase,
     ) : ViewModel() {
-        private val _equipments = MutableStateFlow<EquipmentListState>(EquipmentListState.Loading)
+        private val _equipments = MutableStateFlow<EquipmentListState>(UiState.Loading)
         val equipments = _equipments.asStateFlow()
 
         private val _searchQuery = MutableStateFlow("")
@@ -27,12 +28,12 @@ class EquipmentListViewModel
         val filteredEquipments =
             combine(_equipments, _searchQuery) { state, query ->
                 when (state) {
-                    is EquipmentListState.Success -> {
+                    is UiState.Success -> {
                         if (query.isBlank()) {
-                            state.equipments
+                            state.data
                         } else {
                             val normalizedQuery = query.normalize()
-                            state.equipments.filter { equipment ->
+                            state.data.filter { equipment ->
                                 (equipment.level ?: "").normalize().contains(normalizedQuery, ignoreCase = true) ||
                                     equipment.name.normalize().contains(normalizedQuery, ignoreCase = true) ||
                                     equipment.brand.normalize().contains(normalizedQuery, ignoreCase = true) ||
@@ -58,11 +59,11 @@ class EquipmentListViewModel
             viewModelScope.launch {
                 try {
                     equipmentUseCase.getAllEquipmentUseCase().collect { equipmentList ->
-                        _equipments.value = EquipmentListState.Success(equipmentList)
+                        _equipments.value = UiState.Success(equipmentList)
                     }
                 } catch (e: Exception) {
                     _equipments.value =
-                        EquipmentListState.Error(
+                        UiState.Error(
                             message = e.message ?: "Une erreur est survenue",
                         )
                 }

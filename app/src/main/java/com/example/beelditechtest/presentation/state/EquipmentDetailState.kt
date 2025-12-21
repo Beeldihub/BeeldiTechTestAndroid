@@ -2,4 +2,4 @@ package com.example.beelditechtest.presentation.state
 
 import com.example.beelditechtest.domain.model.Equipment
 
-typealias EquipmentListState = UiState<List<Equipment>>
+typealias EquipmentDetailState = UiState<Equipment?>

@@ -17,7 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.beelditechtest.presentation.state.EquipmentListState
+import com.example.beelditechtest.presentation.state.UiState
 import com.example.beelditechtest.presentation.ui.component.EquipmentItem
 import com.example.beelditechtest.presentation.ui.component.SearchBar
 import com.example.beelditechtest.presentation.viewmodel.EquipmentListViewModel
@@ -38,7 +38,7 @@ fun EquipmentListScreen(
                 .fillMaxSize(),
     ) {
         when (equipmentState) {
-            is EquipmentListState.Loading -> {
+            is UiState.Loading -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center,
@@ -47,7 +47,7 @@ fun EquipmentListScreen(
                 }
             }
 
-            is EquipmentListState.Success -> {
+            is UiState.Success -> {
                 Column(
                     modifier = Modifier.fillMaxSize(),
                 ) {
@@ -84,7 +84,7 @@ fun EquipmentListScreen(
                 }
             }
 
-            is EquipmentListState.Error -> {
+            is UiState.Error -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center,
