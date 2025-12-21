@@ -25,9 +25,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -67,63 +64,12 @@ fun EquipmentDetailScreen(
                     TopBar("Retour", onBackClick = onNavigateBack)
                     Text(text = "Aucun équipement trouvé avec l'ID $equipmentId")
                 } else {
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        Column(
-                            modifier =
-                                Modifier
-                                    .fillMaxSize()
-                                    .verticalScroll(rememberScrollState()),
-                        ) {
-                            TopBar(equipment.name, onBackClick = onNavigateBack)
-
-                            if (isWide) {
-                                Row(
-                                    modifier =
-                                        Modifier
-                                            .fillMaxWidth()
-                                            .padding(16.dp),
-                                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                                ) {
-                                    ScreenContentLeft(
-                                        equipment = equipment,
-                                        modifier = Modifier.weight(1f),
-                                    )
-                                    ScreenContentRight(
-                                        equipment = equipment,
-                                        modifier = Modifier.weight(1f),
-                                    )
-                                }
-                            } else {
-                                Column(
-                                    modifier = Modifier.fillMaxWidth().padding(24.dp),
-                                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                                ) {
-                                    ScreenContentLeft(equipment, Modifier.fillMaxWidth())
-                                    ScreenContentRight(equipment, Modifier.fillMaxWidth())
-                                }
-                            }
-                            Spacer(modifier = Modifier.height(80.dp))
-                        }
-
-                        Button(
-                            onClick = { /* Aucune action pour l'instant */ },
-                            modifier =
-                                Modifier
-                                    .align(Alignment.BottomCenter)
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                            colors =
-                                ButtonDefaults.buttonColors(
-                                    containerColor = Color(0xFFFFC657),
-                                ),
-                        ) {
-                            Text(
-                                "Enregistrer",
-                                color = Color.Black,
-                                style = MaterialTheme.typography.titleMedium,
-                            )
-                        }
-                    }
+                    EquipmentDetailContent(
+                        equipment = equipment,
+                        viewModel = viewModel,
+                        isWide = isWide,
+                        onNavigateBack = onNavigateBack,
+                    )
                 }
             }
 
@@ -136,11 +82,110 @@ fun EquipmentDetailScreen(
 }
 
 @Composable
-fun ScreenContentLeft(equipment: Equipment, modifier: Modifier = Modifier) {
-    var brand by remember { mutableStateOf(equipment.brand) }
-    var model by remember { mutableStateOf(equipment.model) }
-    var serialNumber by remember { mutableStateOf(equipment.serialNumber) }
+fun EquipmentDetailContent(
+    equipment: Equipment,
+    viewModel: EquipmentDetailViewModel,
+    isWide: Boolean,
+    onNavigateBack: () -> Unit,
+) {
+    val brand by viewModel.brand.collectAsStateWithLifecycle(initialValue = "")
+    val model by viewModel.model.collectAsStateWithLifecycle(initialValue = "")
+    val serialNumber by viewModel.serialNumber.collectAsStateWithLifecycle(initialValue = "")
+    val brandError by viewModel.brandError.collectAsStateWithLifecycle(initialValue = null)
+    val modelError by viewModel.modelError.collectAsStateWithLifecycle(initialValue = null)
+    val serialNumberError by viewModel.serialNumberError.collectAsStateWithLifecycle(initialValue = null)
 
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+        ) {
+            TopBar(equipment.name, onBackClick = onNavigateBack)
+
+            if (isWide) {
+                Row(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+                    ScreenContentLeft(
+                        brand = brand,
+                        onBrandChange = { viewModel.updateBrand(it) },
+                        brandError = brandError,
+                        model = model,
+                        onModelChange = { viewModel.updateModel(it) },
+                        modelError = modelError,
+                        serialNumber = serialNumber,
+                        onSerialNumberChange = { viewModel.updateSerialNumber(it) },
+                        serialNumberError = serialNumberError,
+                        modifier = Modifier.weight(1f),
+                    )
+                    ScreenContentRight(
+                        equipment = equipment,
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+            } else {
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(24.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+                    ScreenContentLeft(
+                        brand = brand,
+                        onBrandChange = { viewModel.updateBrand(it) },
+                        brandError = brandError,
+                        model = model,
+                        onModelChange = { viewModel.updateModel(it) },
+                        modelError = modelError,
+                        serialNumber = serialNumber,
+                        onSerialNumberChange = { viewModel.updateSerialNumber(it) },
+                        serialNumberError = serialNumberError,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    ScreenContentRight(equipment, Modifier.fillMaxWidth())
+                }
+            }
+            Spacer(modifier = Modifier.height(80.dp))
+        }
+
+        Button(
+            onClick = { viewModel.saveEquipment() },
+            modifier =
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(16.dp),
+            colors =
+                ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFFFC657),
+                ),
+        ) {
+            Text(
+                "Enregistrer",
+                color = Color.Black,
+                style = MaterialTheme.typography.titleMedium,
+            )
+        }
+    }
+}
+
+@Composable
+fun ScreenContentLeft(
+    brand: String,
+    onBrandChange: (String) -> Unit,
+    brandError: String?,
+    model: String,
+    onModelChange: (String) -> Unit,
+    modelError: String?,
+    serialNumber: String,
+    onSerialNumberChange: (String) -> Unit,
+    serialNumberError: String?,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier =
             modifier
@@ -170,9 +215,11 @@ fun ScreenContentLeft(equipment: Equipment, modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedTextField(
                 value = brand,
-                onValueChange = { brand = it },
+                onValueChange = onBrandChange,
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
+                isError = brandError != null,
+                supportingText = brandError?.let { { Text(it) } },
                 colors =
                     TextFieldDefaults.colors(
                         focusedContainerColor = Color.Transparent,
@@ -191,9 +238,11 @@ fun ScreenContentLeft(equipment: Equipment, modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedTextField(
                 value = model,
-                onValueChange = { model = it },
+                onValueChange = onModelChange,
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
+                isError = modelError != null,
+                supportingText = modelError?.let { { Text(it) } },
                 colors =
                     TextFieldDefaults.colors(
                         focusedContainerColor = Color.Transparent,
@@ -212,9 +261,11 @@ fun ScreenContentLeft(equipment: Equipment, modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedTextField(
                 value = serialNumber,
-                onValueChange = { serialNumber = it },
+                onValueChange = onSerialNumberChange,
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
+                isError = serialNumberError != null,
+                supportingText = serialNumberError?.let { { Text(it) } },
                 colors =
                     TextFieldDefaults.colors(
                         focusedContainerColor = Color.Transparent,
