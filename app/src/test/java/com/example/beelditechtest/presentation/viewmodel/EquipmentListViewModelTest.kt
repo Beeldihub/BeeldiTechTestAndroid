@@ -3,7 +3,6 @@ package com.example.beelditechtest.presentation.viewmodel
 import com.example.beelditechtest.MainDispatcherRule
 import com.example.beelditechtest.domain.model.Equipment
 import com.example.beelditechtest.domain.usecase.EquipmentUseCase
-import com.example.beelditechtest.presentation.state.EquipmentListState
 import com.example.beelditechtest.presentation.state.UiState
 import io.mockk.every
 import io.mockk.mockk
