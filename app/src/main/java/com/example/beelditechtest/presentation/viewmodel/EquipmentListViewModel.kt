@@ -44,7 +44,9 @@ class EquipmentListViewModel
                         }
                     }
 
-                    else -> emptyList()
+                    else -> {
+                        emptyList()
+                    }
                 }
             }
 

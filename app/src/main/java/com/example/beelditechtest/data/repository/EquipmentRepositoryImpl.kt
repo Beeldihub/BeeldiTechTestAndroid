@@ -5,21 +5,24 @@ import com.example.beelditechtest.data.mapper.toDomain
 import com.example.beelditechtest.domain.model.Equipment
 import com.example.beelditechtest.domain.repository.EquipmentRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class EquipmentRepositoryImpl
-@Inject
-constructor(
-    private val equipmentDao: EquipmentDao,
-) : EquipmentRepository {
-    override fun getAllEquipments(): Flow<List<Equipment>> =
-        equipmentDao.getAllEquipments().map { list ->
-            list.map {
-                it.toDomain()
+    @Inject
+    constructor(
+        private val equipmentDao: EquipmentDao,
+    ) : EquipmentRepository {
+        override fun getAllEquipments(): Flow<List<Equipment>> =
+            equipmentDao.getAllEquipments().map { list ->
+                list.map {
+                    it.toDomain()
+                }
             }
-        }
 
-    override fun getEquipmentById(id: Int): Flow<Equipment?> = equipmentDao.getEquipmentById(id).map { it.toDomain() }
-}
+        override fun getEquipmentById(id: Int): Flow<Equipment?> =
+            equipmentDao
+                .getEquipmentById(
+                    id,
+                ).map { it.toDomain() }
+    }

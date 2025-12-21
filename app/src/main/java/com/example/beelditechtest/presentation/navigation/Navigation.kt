@@ -44,13 +44,14 @@ fun NavGraph(
                 ),
         ) { backStackEntry ->
             val equipmentId = backStackEntry.arguments?.getInt("equipmentId") ?: 0
-            val viewModel = hiltViewModel<EquipmentDetailViewModel, EquipmentDetailViewModelFactory> {
-                factory -> factory.create(equipmentId)
-            }
+            val viewModel =
+                hiltViewModel<EquipmentDetailViewModel, EquipmentDetailViewModelFactory> { factory ->
+                    factory.create(equipmentId)
+                }
             EquipmentDetailScreen(
                 viewModel = viewModel,
                 equipmentId = equipmentId,
-                onNavigateBack = { navController.popBackStack() }
+                onNavigateBack = { navController.popBackStack() },
             )
         }
     }

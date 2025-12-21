@@ -17,9 +17,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.beelditechtest.presentation.state.EquipmentListState
 import com.example.beelditechtest.presentation.ui.component.EquipmentItem
 import com.example.beelditechtest.presentation.ui.component.SearchBar
-import com.example.beelditechtest.presentation.state.EquipmentListState
 import com.example.beelditechtest.presentation.viewmodel.EquipmentListViewModel
 
 @Composable

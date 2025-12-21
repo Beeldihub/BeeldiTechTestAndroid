@@ -15,30 +15,30 @@ import java.lang.Exception
 import kotlin.Int
 
 @HiltViewModel(assistedFactory = EquipmentDetailViewModelFactory::class)
-class EquipmentDetailViewModel @AssistedInject constructor(
-    @Assisted
-    val equipmentId: Int,
-    private val equipmentUseCase: EquipmentUseCase,
-) : ViewModel() {
-    private val _equipment = MutableStateFlow<Equipment?>(null)
-    val equipment = _equipment.asStateFlow()
+class EquipmentDetailViewModel
+    @AssistedInject
+    constructor(
+        @Assisted
+        val equipmentId: Int,
+        private val equipmentUseCase: EquipmentUseCase,
+    ) : ViewModel() {
+        private val _equipment = MutableStateFlow<Equipment?>(null)
+        val equipment = _equipment.asStateFlow()
 
-    init {
+        init {
+        }
 
-    }
-
-    fun loadEquipment() {
-        viewModelScope.launch {
-            try {
-                equipmentUseCase.getEquipmentByIdUseCase(equipmentId).collect { equipment ->
-                    _equipment.value = equipment
+        fun loadEquipment() {
+            viewModelScope.launch {
+                try {
+                    equipmentUseCase.getEquipmentByIdUseCase(equipmentId).collect { equipment ->
+                        _equipment.value = equipment
+                    }
+                } catch (e: Exception) {
                 }
-            } catch (e: Exception) {
-
             }
         }
     }
-}
 
 @AssistedFactory
 interface EquipmentDetailViewModelFactory {
