@@ -4,6 +4,7 @@ import com.example.beelditechtest.MainDispatcherRule
 import com.example.beelditechtest.domain.model.Equipment
 import com.example.beelditechtest.domain.usecase.EquipmentUseCase
 import com.example.beelditechtest.presentation.state.EquipmentListState
+import com.example.beelditechtest.presentation.state.UiState
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -34,7 +35,7 @@ class EquipmentListViewModelTest {
 
             val viewModel = EquipmentListViewModel(equipmentUseCase)
 
-            assertEquals(EquipmentListState.Loading, viewModel.equipments.value)
+            assertEquals(UiState.Loading, viewModel.equipments.value)
         }
 
     @Test
@@ -61,7 +62,7 @@ class EquipmentListViewModelTest {
             val vm = EquipmentListViewModel(equipmentUseCase)
             advanceUntilIdle()
 
-            assertEquals(EquipmentListState.Success(equipments), vm.equipments.value)
+            assertEquals(UiState.Success(equipments), vm.equipments.value)
         }
 
     @Test
@@ -87,11 +88,11 @@ class EquipmentListViewModelTest {
 
             flow.emit(list1)
             advanceUntilIdle()
-            assertEquals(EquipmentListState.Success(list1), viewModel.equipments.value)
+            assertEquals(UiState.Success(list1), viewModel.equipments.value)
 
             flow.emit(list2)
             advanceUntilIdle()
-            assertEquals(EquipmentListState.Success(list2), viewModel.equipments.value)
+            assertEquals(UiState.Success(list2), viewModel.equipments.value)
         }
 
     @Test
@@ -103,7 +104,7 @@ class EquipmentListViewModelTest {
             advanceUntilIdle()
 
             val state = viewModel.equipments.value
-            check(state is EquipmentListState.Error)
+            check(state is UiState.Error)
             assertEquals("Error from use case", state.message)
         }
 
