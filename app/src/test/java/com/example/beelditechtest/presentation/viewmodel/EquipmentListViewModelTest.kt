@@ -11,11 +11,14 @@ import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
+import kotlin.collections.emptyList
+import kotlin.collections.listOf
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class EquipmentListViewModelTest {
@@ -108,12 +111,326 @@ class EquipmentListViewModelTest {
     fun `should call use case again when loadEquipments is called`() =
         runTest {
             every { equipmentUseCase.getAllEquipmentUseCase() } returns flowOf(emptyList())
-            val vm = EquipmentListViewModel(equipmentUseCase)
+            val viewModel = EquipmentListViewModel(equipmentUseCase)
             advanceUntilIdle()
 
-            vm.loadEquipments()
+            viewModel.loadEquipments()
             advanceUntilIdle()
 
             verify(exactly = 2) { equipmentUseCase.getAllEquipmentUseCase() }
+        }
+
+    @Test
+    fun `should return equipment by search query with title`() =
+        runTest {
+            val equipments =
+                listOf(
+                    Equipment(
+                        1,
+                        "Ventilation mécanique",
+                        "Aldes",
+                        "VMC Simple Flux",
+                        "ALD-2021-078",
+                        "Bâtiment C",
+                        "Étage 3",
+                        1,
+                    ),
+                    Equipment(
+                        2,
+                        "Chaudière",
+                        "Viessmann",
+                        "Vitodens 200-W",
+                        "VIE-2023-123",
+                        "Bâtiment A",
+                        "Sous-sol",
+                        2,
+                    ),
+                )
+            every { equipmentUseCase.getAllEquipmentUseCase() } returns flowOf(equipments)
+
+            val viewModel = EquipmentListViewModel(equipmentUseCase)
+            advanceUntilIdle()
+
+            viewModel.searchEquipments("Chaudière")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+
+            // Search in lowercase and uppercase
+            viewModel.searchEquipments("chaudiere")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+
+            viewModel.searchEquipments("CHAUDIERE")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+
+            viewModel.searchEquipments("test")
+            advanceUntilIdle()
+            assertEquals(emptyList<Equipment>(), viewModel.filteredEquipments.first())
+
+            viewModel.searchEquipments("")
+            advanceUntilIdle()
+            assertEquals(equipments, viewModel.filteredEquipments.first())
+        }
+
+    @Test
+    fun `should return equipment by search query with brand`() =
+        runTest {
+            val equipments =
+                listOf(
+                    Equipment(
+                        1,
+                        "Ventilation mécanique",
+                        "Aldes",
+                        "VMC Simple Flux",
+                        "ALD-2021-078",
+                        "Bâtiment C",
+                        "Étage 3",
+                        1,
+                    ),
+                    Equipment(
+                        2,
+                        "Chaudière",
+                        "Viessmann",
+                        "Vitodens 200-W",
+                        "VIE-2023-123",
+                        "Bâtiment A",
+                        "Sous-sol",
+                        2,
+                    ),
+                )
+            every { equipmentUseCase.getAllEquipmentUseCase() } returns flowOf(equipments)
+
+            val viewModel = EquipmentListViewModel(equipmentUseCase)
+            advanceUntilIdle()
+
+            viewModel.searchEquipments("Viessmann")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+
+            // Search in lowercase and uppercase
+            viewModel.searchEquipments("viessmann")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+
+            viewModel.searchEquipments("VIESSMANN")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+        }
+
+    @Test
+    fun `should return equipment by search query with model`() =
+        runTest {
+            val equipments =
+                listOf(
+                    Equipment(
+                        1,
+                        "Ventilation mécanique",
+                        "Aldes",
+                        "VMC Simple Flux",
+                        "ALD-2021-078",
+                        "Bâtiment C",
+                        "Étage 3",
+                        1,
+                    ),
+                    Equipment(
+                        2,
+                        "Chaudière",
+                        "Viessmann",
+                        "Vitodens 200-W",
+                        "VIE-2023-123",
+                        "Bâtiment A",
+                        "Sous-sol",
+                        2,
+                    ),
+                )
+            every { equipmentUseCase.getAllEquipmentUseCase() } returns flowOf(equipments)
+
+            val viewModel = EquipmentListViewModel(equipmentUseCase)
+            advanceUntilIdle()
+
+            viewModel.searchEquipments("Vitodens 200-W")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+
+            // Search in lowercase and uppercase
+            viewModel.searchEquipments("vitodens 200-w")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+
+            viewModel.searchEquipments("VITODENS 200-W")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+        }
+
+    @Test
+    fun `should return equipment by search query with serialNumber`() =
+        runTest {
+            val equipments =
+                listOf(
+                    Equipment(
+                        1,
+                        "Ventilation mécanique",
+                        "Aldes",
+                        "VMC Simple Flux",
+                        "ALD-2021-078",
+                        "Bâtiment C",
+                        "Étage 3",
+                        1,
+                    ),
+                    Equipment(
+                        2,
+                        "Chaudière",
+                        "Viessmann",
+                        "Vitodens 200-W",
+                        "VIe-2023-123",
+                        "Bâtiment A",
+                        "Sous-sol",
+                        2,
+                    ),
+                )
+            every { equipmentUseCase.getAllEquipmentUseCase() } returns flowOf(equipments)
+
+            val viewModel = EquipmentListViewModel(equipmentUseCase)
+            advanceUntilIdle()
+
+            viewModel.searchEquipments("VIe-2023-123")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+
+            // Search in lowercase and uppercase
+            viewModel.searchEquipments("vie-2023-123")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+
+            viewModel.searchEquipments("VIE-2023-123")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+        }
+
+    @Test
+    fun `should return equipment by search query with local`() =
+        runTest {
+            val equipments =
+                listOf(
+                    Equipment(
+                        1,
+                        "Ventilation mécanique",
+                        "Aldes",
+                        "VMC Simple Flux",
+                        "ALD-2021-078",
+                        "Bâtiment C",
+                        "Étage 3",
+                        1,
+                    ),
+                    Equipment(
+                        2,
+                        "Chaudière",
+                        "Viessmann",
+                        "Vitodens 200-W",
+                        "VIE-2023-123",
+                        "Bâtiment A",
+                        "Sous-sol",
+                        2,
+                    ),
+                )
+            every { equipmentUseCase.getAllEquipmentUseCase() } returns flowOf(equipments)
+
+            val viewModel = EquipmentListViewModel(equipmentUseCase)
+            advanceUntilIdle()
+
+            viewModel.searchEquipments("Bâtiment A")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+
+            // Search in lowercase and uppercase
+            viewModel.searchEquipments("batiment a")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+
+            viewModel.searchEquipments("BATIMENT A")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+        }
+
+    @Test
+    fun `should return equipment by search query with level`() =
+        runTest {
+            val equipments =
+                listOf(
+                    Equipment(
+                        1,
+                        "Ventilation mécanique",
+                        "Aldes",
+                        "VMC Simple Flux",
+                        "ALD-2021-078",
+                        "Bâtiment C",
+                        "Étage 3",
+                        1,
+                    ),
+                    Equipment(
+                        2,
+                        "Chaudière",
+                        "Viessmann",
+                        "Vitodens 200-W",
+                        "VIE-2023-123",
+                        "Bâtiment A",
+                        "Sous-sol",
+                        2,
+                    ),
+                )
+            every { equipmentUseCase.getAllEquipmentUseCase() } returns flowOf(equipments)
+
+            val viewModel = EquipmentListViewModel(equipmentUseCase)
+            advanceUntilIdle()
+
+            viewModel.searchEquipments("Sous-sol")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+
+            // Search in lowercase and uppercase
+            viewModel.searchEquipments("sous-sol")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+
+            viewModel.searchEquipments("SOUS-SOL")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
+        }
+
+    @Test
+    fun `should return equipment by search query with type`() =
+        runTest {
+            val equipments =
+                listOf(
+                    Equipment(
+                        1,
+                        "Ventilation mécanique",
+                        "Aldes",
+                        "VMC Simple Flux",
+                        "ALD-2021-078",
+                        "Bâtiment C",
+                        "Étage 3",
+                        3,
+                    ),
+                    Equipment(
+                        2,
+                        "Chaudière",
+                        "Viessmann",
+                        "Vitodens 200-W",
+                        "VIE-2023-123",
+                        "Bâtiment A",
+                        "Sous-sol",
+                        4,
+                    ),
+                )
+            every { equipmentUseCase.getAllEquipmentUseCase() } returns flowOf(equipments)
+
+            val viewModel = EquipmentListViewModel(equipmentUseCase)
+            advanceUntilIdle()
+
+            viewModel.searchEquipments("4")
+            advanceUntilIdle()
+            assertEquals(listOf(equipments[1]), viewModel.filteredEquipments.first())
         }
 }

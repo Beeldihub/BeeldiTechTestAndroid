@@ -31,7 +31,7 @@ fun EquipmentItem(
                 .fillMaxWidth()
                 .clickable(onClick = onClick),
         shape = RoundedCornerShape(12.dp),
-        color = MaterialTheme.colorScheme.primary,
+        color = MaterialTheme.colorScheme.surfaceContainerLowest,
     ) {
         Row(
             modifier = Modifier.padding(18.dp, 14.dp),
