@@ -30,4 +30,29 @@ class EquipmentMapperTest {
         assertEquals(equipmentEntity.level, equipment.level)
         assertEquals(equipmentEntity.type, equipment.type)
     }
+
+    @Test
+    fun `toEntity should map Equipment to EquipmentEntity`() {
+        val equipment =
+            Equipment(
+                1,
+                "name",
+                "brand",
+                "model",
+                "serialNumber",
+                "local",
+                "level",
+                1,
+            )
+        val equipmentEntity: EquipmentEntity = equipment.toEntity()
+
+        assertEquals(equipment.id, equipmentEntity.id)
+        assertEquals(equipment.name, equipmentEntity.name)
+        assertEquals(equipment.brand, equipmentEntity.brand)
+        assertEquals(equipment.model, equipmentEntity.model)
+        assertEquals(equipment.serialNumber, equipmentEntity.serialNumber)
+        assertEquals(equipment.local, equipmentEntity.local)
+        assertEquals(equipment.level, equipmentEntity.level)
+        assertEquals(equipment.type, equipmentEntity.type)
+    }
 }
