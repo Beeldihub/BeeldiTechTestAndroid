@@ -113,6 +113,7 @@ fun ScreenContentLeft(equipment: Equipment, modifier: Modifier = Modifier) {
             Text(
                 "Matériel",
                 style = MaterialTheme.typography.titleLarge,
+                color = Color.Black,
             )
         }
         HorizontalDivider()
@@ -168,6 +169,7 @@ fun ScreenContentRight(equipment: Equipment, modifier: Modifier = Modifier) {
             Text(
                 "Localisation",
                 style = MaterialTheme.typography.titleLarge,
+                color = Color.Black,
             )
         }
         HorizontalDivider()
